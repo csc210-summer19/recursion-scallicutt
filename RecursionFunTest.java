@@ -1,16 +1,19 @@
 // A unit test for Recursion fun that require 
-// Free standing methods like combinations and arrayRange
-// 3 methods in LinkedList<E>
+//
+// Free standing methods like combinations and arrayRange.
+//
+// Three methods in LinkedList<E>
 // -- get(int) 
 // -- removeElement(E)
 // -- duplicateElement(E)
+//
+// One method in ObstacleCourse (or 2 if you add a helper)
 // -- private boolean findExit(int row, int col) 
 //
 // Programmer: Rick Mercer
 //
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.Assert.*;
+
 import org.junit.Test;
 
 public class RecursionFunTest {
@@ -18,18 +21,7 @@ public class RecursionFunTest {
   private RecursionFun rf = new RecursionFun();
 
   @Test
-  public void testCombinations1() {
-    // some simple ones
-    assertEquals(4, rf.combinations(4, 3));
-    assertEquals(3, rf.combinations(3, 2));
-    assertEquals(6, rf.combinations(4, 2));
-    assertEquals(10, rf.combinations(5, 2));
-    // There are 2,598,960 possible poker hands:
-    assertEquals(2598960, rf.combinations(52, 5));
-  }
-
-  @Test
-  public void testCombinations2() {
+  public void testCombinations() {
     // n choices when choosing only 1
     assertEquals(1, rf.combinations(1, 1));
     assertEquals(5, rf.combinations(5, 1));
@@ -39,25 +31,22 @@ public class RecursionFunTest {
     assertEquals(1, rf.combinations(5, 5));
     assertEquals(1, rf.combinations(178, 178));
 
+    // some simple ones
+    assertEquals(4, rf.combinations(4, 3));
+    assertEquals(3, rf.combinations(3, 2));
+    assertEquals(6, rf.combinations(4, 2));
+    assertEquals(10, rf.combinations(5, 2));
+
     // There are 2,598,960 possible poker hands:
     assertEquals(2598960, rf.combinations(52, 5));
   }
 
-
   @Test
-  public void testIntWithCommas1() {
+  public void testIntWithCommas() {
     assertEquals("9", rf.intWithCommas(9));
     assertEquals("123", rf.intWithCommas(123));
     assertEquals("1,234", rf.intWithCommas(1234));
     assertEquals("2,147,483,647", rf.intWithCommas(Integer.MAX_VALUE));
-    assertEquals("1,007", rf.intWithCommas(1007));
-    assertEquals("1,027", rf.intWithCommas(1027));
-    assertEquals("1,000", rf.intWithCommas(1000));
-    assertEquals("1,023,004,567", rf.intWithCommas(1023004567));
-  }
-
-  @Test
-  public void testIntWithCommasWithLeadingZeros() {
     assertEquals("1,007", rf.intWithCommas(1007));
     assertEquals("1,027", rf.intWithCommas(1027));
     assertEquals("1,000", rf.intWithCommas(1000));
@@ -136,6 +125,8 @@ public class RecursionFunTest {
     list.addLast("B");
     list.addLast("C");
     list.addLast("D");
+    
+    assertEquals(4, list.size());
     assertEquals("A", list.get(0));
     assertEquals("B", list.get(1));
     assertEquals("C", list.get(2));
@@ -149,10 +140,27 @@ public class RecursionFunTest {
     intList.addLast(5);
     intList.addLast(7);
     intList.removeAll(4);
-      
+   
+    assertEquals(3, intList.size());
     assertEquals((Integer)3, intList.get(0));
     assertEquals((Integer)5, intList.get(1));  
     assertEquals((Integer)7, intList.get(2));  
+  }
+  
+  
+  @Test
+  public void testRemoveAllMiddle() {
+    LinkedList<String> intList = new LinkedList<>();
+    intList.addLast("A");
+    intList.addLast("B");
+    intList.addLast("C");
+    
+    assertEquals(3, intList.size());
+    intList.removeAll("B");
+    assertEquals(2, intList.size());
+    
+    assertEquals("A", intList.get(0));
+    assertEquals("C", intList.get(1));  
   }
   
   @Test
@@ -164,6 +172,7 @@ public class RecursionFunTest {
     intList.addLast(3);
     intList.addLast(7);
     intList.addLast(3);
+    
     intList.removeAll(3);
       
     assertEquals((Integer)5, intList.get(0));
@@ -171,7 +180,7 @@ public class RecursionFunTest {
   }
 
   @Test
-  public void testDuplicateAllWhenEmpty() {
+  public void testDuplicateAllWhenEmptyAndOne() {
     LinkedList<String> list = new LinkedList<String>();
     assertEquals(0, list.size());
     list.duplicateAll("B");
@@ -205,16 +214,16 @@ public class RecursionFunTest {
     list.addLast("A");
     assertEquals(5, list.size());
     list.duplicateAll("B");
+    assertEquals(8, list.size());
     assertEquals("B", list.get(0));
     assertEquals("B", list.get(1));
     assertEquals("B", list.get(2));
     assertEquals("B", list.get(3));
     assertEquals("B", list.get(4));
-    assertEquals("B", list.get(5));
-    assertEquals("X", list.get(6));
-    assertEquals("A", list.get(7));
-    assertEquals(8, list.size());
-  }
+//    assertEquals("B", list.get(5));
+//    assertEquals("X", list.get(6));
+//    assertEquals("A", list.get(7));
+ }
 
   @Test
   public void testFindExitWithSmallGrid1() {
@@ -234,7 +243,11 @@ public class RecursionFunTest {
 
   @Test
   public void testFindExitWithSmallGrid2() {
-    char[][] grid = { { '+', '+', '+', '+' }, { ' ', ' ', ' ', '+' }, { '+', ' ', ' ', '+' }, { '+', ' ', ' ', '+' },
+    char[][] grid = { 
+        { '+', '+', '+', '+' },
+        { ' ', ' ', ' ', '+' },
+        { '+', ' ', ' ', '+' }, 
+        { '+', ' ', ' ', '+' },
         { '+', '+', '+', '+' } };
     ObstacleCourse top = new ObstacleCourse(2, 2, grid);
     assertEquals(2, top.getStartRow());
@@ -246,7 +259,11 @@ public class RecursionFunTest {
 
   @Test
   public void testFindExitWithSmallGrid3() {
-    char[][] grid = { { '+', '+', ' ', '+' }, { ' ', ' ', ' ', '+' }, { '+', ' ', ' ', '+' }, { '+', ' ', ' ', '+' },
+    char[][] grid = { 
+        { '+', '+', ' ', '+' }, 
+        { '+', ' ', ' ', '+' }, 
+        { '+', ' ', ' ', '+' },
+        { '+', ' ', ' ', '+' },
         { '+', '+', '+', '+' } };
     ObstacleCourse top = new ObstacleCourse(3, 1, grid);
     assertEquals(3, top.getStartRow());
