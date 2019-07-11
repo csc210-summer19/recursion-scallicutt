@@ -1,3 +1,6 @@
+//Samantha Callicutt, CSC210, Summer2019
+
+
 /**
  * This generic collection class uses a singly-linked data 
  * structure to store store elements. Many operations are
@@ -109,7 +112,12 @@ public class LinkedList<E extends Comparable<E>> {
 
   private E get(Node ref, int startIndex, int stopIndex) {
     // TODO: Complete this method using recursion, no loop allowed.
-    return null;
+	if (startIndex == stopIndex) {
+		return ref.data;
+	}
+	else {
+		return get(ref.next, startIndex + 1, stopIndex);
+	}
   }
  
   
@@ -118,14 +126,55 @@ public class LinkedList<E extends Comparable<E>> {
   public void removeAll(E el) {
     // This public method requires a call to a private helper method
     // with first as an argument. It must be recursive, no loop allowed.
+	removeHelper(el, first);
+  }
+  
+  private void removeHelper(E el, Node node) {
+	  if (node == null) {
+			return;
+	  } 
+	  else if (first.data.equals(el)) {
+		  first = first.next;
+		  removeHelper(el, first);
+	  }
+	  else if (node.next != null) {
+			if (node.next.data.equals(el)) {
+				node.next = node.next.next;
+				n--;
+				removeHelper(el, node);
+			} 
+			else {
+				removeHelper(el, node.next);
+			}
+	  }
+	  
   }
 
   // Duplicate el next to each occurrence of el in this list.
   public void duplicateAll(E el) {
     // This public method requires a call to a private helper method
     // with first as an argument. It must be recursive, no loop allowed.
+	duplicateHelper(el, first, 0);
   }
-
-
-
+  
+  private void duplicateHelper(E el, Node node, int index) {
+	  if (node == null) {
+			return;
+	  } 
+	  else if ((index == 0) && (node.data.equals(el))) {
+			Node newNode = new Node(el);
+			newNode.next = first;
+			first = newNode;
+			n++;
+			duplicateHelper(el, node.next, index + 2);
+	  }
+	  else if (node.data.equals(el)) {
+			Node newNode = new Node(el);
+			newNode.next = node.next;
+			node.next = newNode;
+			n++;
+			duplicateHelper(el, node.next.next, index + 2);
+	  }
+  }
+  
 }

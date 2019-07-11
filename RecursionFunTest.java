@@ -1,3 +1,5 @@
+//Samantha Callicutt, CSC210, Summer2019
+
 // A unit test for Recursion fun that require 
 //
 // Free standing methods like combinations and arrayRange.
